@@ -13,18 +13,6 @@ class GameWindow < Window
   end
 
   def update
-    # if button_down? KbLeft then
-    #   @snake.turn_left
-    # end
-    # if button_down? KbRight then
-    #   @snake.turn_right
-    # end
-    # if button_down? KbUp then
-    #   @snake.turn_up
-    # end
-    # if button_down? KbDown then
-    #   @snake.turn_down
-    # end
     @snake.move
   end
 

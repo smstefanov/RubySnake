@@ -3,7 +3,8 @@ include Gosu
 class Snake
   def initialize(window)
     @image = Image.new(window, "Images/Snake.bmp", false)
-    @x = @y = @vel_x = @vel_y = @angle = 0.0
+    @x = @y = @vel_x = @vel_y = 0.0
+    @angle = 0
     @score = 0
   end
 
@@ -12,19 +13,20 @@ class Snake
   end
 
   def turn_left
-    @angle -= 90
+    @angle = 180 if @angle != 0
+
   end
 
   def turn_right
-    @angle += 90
+    @angle = 0 if @angle != 180
   end
 
   def turn_up
-    @angle += 90
+    @angle = 270 if @angle != 90
   end
 
   def turn_down
-    @angle += 90
+    @angle = 90 if @angle != 270
   end
 
   def move
