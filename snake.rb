@@ -30,10 +30,21 @@ class Snake
   end
 
   def move
-    @x += @vel_x
-    @y += @vel_y
+    #@x += @vel_x
+    #@y += @vel_y
+    case @angle
+    when 0 # right
+      @x += 1
+    when 90 # down!
+      @y += 1
+    when 180 # left
+      @x -= 1
+    when 270 # up!
+      @y -= 1
+    end
     @x %= 640
     @y %= 480
+
   end
 
   def draw
