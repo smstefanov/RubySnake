@@ -1,11 +1,15 @@
 include Gosu
 
 class Snake
+
+  attr_accessor :broken
+
   def initialize(window)
     @image = Image.new(window, "Images/Snake.bmp", false)
     @x = @y = @vel_x = @vel_y = 0.0
     @angle = 0
     @score = 0
+    @broken = false
   end
 
   def warp(x, y)
@@ -42,9 +46,9 @@ class Snake
     when 270 # up!
       @y -= 1
     end
-    @x %= 640
-    @y %= 480
-
+    if @x > 640 || @y > 480 || @x < 0 || @y < 0
+      @broken = true
+    end
   end
 
   def draw
@@ -52,6 +56,7 @@ class Snake
   end
 
   def button_down(id)
+    return if broken
     if id == KbLeft then
       turn_left
     end
