@@ -37,4 +37,19 @@ class Snake
   def draw
     @image.draw_rot(@x, @y, 1, @angle)
   end
+
+  def button_down(id)
+    if id == KbLeft then
+      turn_left
+    end
+    if id == KbRight then
+      turn_right
+    end
+    if id == KbUp then
+      turn_up
+    end
+    if id == KbDown then
+      turn_down
+    end
+  end
 end
