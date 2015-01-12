@@ -12,10 +12,22 @@ class GameWindow < Window
 
   def update
     @snake.move if !@snake.broken
+    if @snake.broken
+      if @snake.lives > 1
+        @snake.lives -= 1
+        @snake.broken = false
+        @snake.warp(320,240)
+        @snake.move
+      elsif @snake.lives >= 0 # ако животите са 0 или 1
+       @snake.lives = 0
+       self.draw
+      end
+    end
   end
 
   def draw
-    @font.draw("Game Over", 210, 200, 1, 1, 1, 0xff00007A) if @snake.broken
+    @font.draw("Lives: #{@snake.lives}", 10, 10, 0.5, 0.5, 0.5, 0xff00007A)
+    @font.draw("Game Over", 210, 200, 1, 1, 1, 0xff00007A) if @snake.lives == 0 and @snake.broken
     @snake.draw
     @background_image.draw(0, 0, 0);
   end
