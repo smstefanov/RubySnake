@@ -34,6 +34,15 @@ class Snake
     @angle = 90 if @angle != 270
   end
 
+  def food_eaten(x, y)
+    if @x - 22 <= x and x <= @x + 8 and @y - 22 <= y and y <= @y + 8
+      @score += 10
+      true
+    else
+      false
+    end
+  end
+
   def move
     #@x += @vel_x
     #@y += @vel_y
