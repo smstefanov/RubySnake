@@ -35,13 +35,19 @@ class GameWindow < Window
   end
 
   def button_down(id)
-    if id == KbEscape or id == KbN
+    if id == KbEscape
       close
     end
-    if id == KbY
-      @snake = Snake.new(self)
-      @snake.warp(320, 240)
+    if @snake.broken
+      if id == KbY
+        @snake = Snake.new(self)
+        @snake.warp(320, 240)
+      end
+      if id == KbN
+        close
+      end
     end
     @snake.button_down(id)
   end
+
 end

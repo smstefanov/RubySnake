@@ -71,4 +71,5 @@ class Snake
       turn_down
     end
   end
+
 end
