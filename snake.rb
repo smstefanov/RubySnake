@@ -2,15 +2,15 @@ include Gosu
 
 class Snake
 
-  attr_accessor :broken, :lives
+  attr_accessor :broken, :lives, :score
 
   def initialize(window)
     @image = Image.new(window, "Images/Snake.bmp", false)
     @x = @y = @vel_x = @vel_y = 0.0
     @angle = 0
-    #@score = 0
+    @score = 0
     @broken = false
-    @lives = 3
+    @lives = 1
   end
 
   def warp(x, y)

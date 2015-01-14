@@ -27,14 +27,20 @@ class GameWindow < Window
 
   def draw
     @font.draw("Lives: #{@snake.lives}", 10, 10, 0.5, 0.5, 0.5, 0xff00007A)
+    @font.draw("Points: #{@snake.score}", 540, 10 , 0.5, 0.5, 0.5, 0xff00007A)
     @font.draw("Game Over", 210, 200, 1, 1, 1, 0xff00007A) if @snake.lives == 0 and @snake.broken
+    @font.draw("Do you want to play again? Y/N", 162, 250, 0.5, 0.5, 0.5, 0xff00007A) if @snake.lives == 0 and @snake.broken
     @snake.draw
     @background_image.draw(0, 0, 0);
   end
 
   def button_down(id)
-    if id == KbEscape
+    if id == KbEscape or id == KbN
       close
+    end
+    if id == KbY
+      @snake = Snake.new(self)
+      @snake.warp(320, 240)
     end
     @snake.button_down(id)
   end
