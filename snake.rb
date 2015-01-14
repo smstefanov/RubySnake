@@ -9,8 +9,8 @@ class Snake
     @x = @y = @vel_x = @vel_y = 0.0
     @angle = 0
     @score = 0
+    @lives = 3
     @broken = false
-    @lives = 1
   end
 
   def warp(x, y)
@@ -43,6 +43,15 @@ class Snake
     end
   end
 
+  def obstacle_crash(x, y)
+    if @x - 30 <= x and x <= @x + 10 and @y - 30 <= y and y <= @y + 10
+      #@lives -= 1 if @lives > 0
+      @broken = true
+      true
+    else
+      false
+    end
+  end
   def move
     #@x += @vel_x
     #@y += @vel_y
