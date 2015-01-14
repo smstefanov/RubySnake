@@ -38,7 +38,7 @@ class GameWindow < Window
     if id == KbEscape
       close
     end
-    if @snake.broken
+    if @snake.broken and @snake.lives == 0
       if id == KbY
         @snake = Snake.new(self)
         @snake.warp(320, 240)
