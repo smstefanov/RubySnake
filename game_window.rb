@@ -8,28 +8,32 @@ class GameWindow < Window
     @snake = Snake.new(self)
     restart_all
     @font = Font.new(self, default_font_name, 50)
+    @paused = false
   end
 
   def update
-    @snake.move if !@snake.broken
-    if @snake.broken
-      if @snake.lives > 1
-        @snake.lives -= 1
-        @snake.broken = false
-        restart_all
-        @snake.move
-      elsif @snake.lives >= 0 # ако животите са 0 или 1
-       @snake.lives = 0
-       self.draw
+    if !@paused
+      @snake.move if !@snake.broken
+      if @snake.broken
+        if @snake.lives > 1
+          @snake.lives -= 1
+          @snake.broken = false
+          restart_all
+          @snake.move
+        elsif @snake.lives >= 0 # ако животите са 0 или 1
+          @snake.lives = 0
+          self.draw
+        end
       end
     end
   end
 
   def font_draw
     @font.draw("Lives: #{@snake.lives}", 10, 10, 1, 0.5, 0.5, 0xff00007A)
-    @font.draw("Points: #{@snake.score}", 530, 10 , 1, 0.5, 0.5, 0xff00007A)
+    @font.draw("Points: #{@snake.score}", 520, 10 , 1, 0.5, 0.5, 0xff00007A)
     @font.draw("Game Over", 210, 200, 100, 1, 1, 0xff00007A) if @snake.lives == 0 and @snake.broken
     @font.draw("Do you want to play again? Y/N", 162, 250, 100, 0.5, 0.5, 0xff00007A) if @snake.lives == 0 and @snake.broken
+    @font.draw("Pause", 250, 220, 100, 1, 1, 0xff00007A) if @paused
   end
 
   def draw
@@ -70,6 +74,9 @@ class GameWindow < Window
   def button_down(id)
     if id == KbEscape
       close
+    end
+    if id == KbSpace
+      @paused = !@paused
     end
     if @snake.broken and @snake.lives == 0
       if id == KbY

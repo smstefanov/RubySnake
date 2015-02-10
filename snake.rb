@@ -19,7 +19,6 @@ class Snake
 
   def turn_left
     @angle = 180 if @angle != 0
-
   end
 
   def turn_right
