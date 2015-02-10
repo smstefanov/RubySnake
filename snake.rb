@@ -52,17 +52,21 @@ class Snake
     end
   end
   def move
-    #@x += @vel_x
-    #@y += @vel_y
+    @vel_x = 0.02*@score
+    @vel_y = 0.02*@score
     case @angle
     when 0 # right
       @x += 1
+      @x += @vel_x
     when 90 # down!
       @y += 1
+      @y += @vel_y
     when 180 # left
       @x -= 1
+      @x -= @vel_x
     when 270 # up!
       @y -= 1
+      @y -= @vel_y
     end
     if @x > 640 or @y > 480 or @x < 0 or @y < 0
       @broken = true
