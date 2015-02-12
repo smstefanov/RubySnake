@@ -1,11 +1,13 @@
 include Gosu
 
+require_relative 'aabb.rb'
+
 class Obstacle
 
   attr_accessor :x, :y
 
-  def initialize(window)
-    @image = Image.new(window, "Images/Obstacle.bmp", false)
+  def initialize()
+    @image = Image.new(GameWindow.window, "Images/Obstacle.bmp", false)
     @x = rand(20..620)
     @y = rand(50..460)
   end
