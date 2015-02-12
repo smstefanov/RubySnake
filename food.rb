@@ -8,21 +8,25 @@ class Food
 
   def initialize()
     @image = Image.new(GameWindow.window, "Images/Food.png", false)
-    @x = rand(20..620)
-    @y = rand(50..460)
-    "while !unique
-      @x = rand(20..620)
-      @y = rand(50..460)
+    replace
+    until Obstacle.obstacle_free? aabb do
+      replace
     end
-    GameWindow.objects[:food] = [@x, @y]"
   end
 
-  "def unique
-    if
-  end"
+  def replace
+    grid_size = GameWindow.grid_size
+    window_size = GameWindow.window_size
+    @x = (rand(window_size[0]/grid_size[0] - 2).round + 1)*grid_size[0]
+    @y = (rand(window_size[1]/grid_size[1] - 2).round + 1)*grid_size[1]
+  end
 
   def draw
-    @image.draw(@x, @y, 1)
+    @image.draw_rot(@x, @y, 1, 0)
+  end
+
+  def aabb
+    AABB.new(@x - @image.width/2, @y - @image.height/2, @x + @image.width/2, @y + @image.height/2)
   end
 
 end

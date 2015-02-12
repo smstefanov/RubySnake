@@ -24,7 +24,7 @@ class Tail
   end
 
   def tail_crash(snake_aabb)
-    if aabb.intersects? snake_aabb
+    if aabb.intersects snake_aabb
       true
     elsif @next
       @next.tail_crash(snake_aabb)

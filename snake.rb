@@ -3,15 +3,11 @@ include Gosu
 require_relative 'aabb.rb'
 
 class Snake
-  attr_accessor :broken, :lives, :score, :all_score, :tail
 
-  "def self.size
-    @@width, @@height
-  end"
+  attr_accessor :broken, :lives, :score, :all_score, :tail, :image
 
   def initialize()
     @image = Image.new(GameWindow.window, "Images/Snake.bmp", false)
-    @@width, @@height = @image.width, @image.height
     @tail = nil
     @x = @y = 0.0
     @angle = 0
@@ -22,7 +18,7 @@ class Snake
     @move_count = 1
   end
 
-  def warp(x, y)
+  def snake_position(x, y)
     @x, @y = x, y
   end
 
@@ -42,33 +38,10 @@ class Snake
     @angle = 90 if @angle != 270
   end
 
-  def food_eaten(x, y)
-    if @x - 22 <= x and x <= @x + 8 and @y - 22 <= y and y <= @y + 8
-      @score += 10
-      @all_score += 10
-      add_tail
-      true
-    else
-      false
-    end
-  end
-
-  def aabb
-    AABB.new(@x - @image.width/2, @y - @image.height/2, @x + @image.width/2, @y + @image.height/2)
-  end
-
-  def add_tail
-    if @tail
-      @tail.add_tail
-    else
-      @tail = Tail.new(@x, @y)
-    end
-  end
-
   def move
     @move_count += 1
 
-    return if @move_count % (Math.exp(Math.log(30)) - @score/5).ceil != 0
+    return if @move_count % [1, (25 - @score/5).ceil].max != 0
 
     @tail.move(@x, @y) if @tail
 
@@ -107,8 +80,12 @@ class Snake
     end
   end
 
-  def food_eaten(x, y)
-    if @x - 22 <= x and x <= @x + 8 and @y - 22 <= y and y <= @y + 8
+  def aabb
+    AABB.new(@x - @image.width/2, @y - @image.height/2, @x + @image.width/2, @y + @image.height/2)
+  end
+
+  def food_eaten(aabb)
+    if self.aabb.intersects aabb then
       @score += 10
       @all_score += 10
       add_tail
@@ -119,13 +96,13 @@ class Snake
   end
 
   def check_food_eaten
-    if food_eaten(GameWindow.window.food.x, GameWindow.window.food.y)
+    if food_eaten(GameWindow.window.food.aabb)
       GameWindow.window.food = Food.new()
     end
   end
 
-  def obstacle_crash(x, y)
-    if @x - 30 <= x and x <= @x + 10 and @y - 30 <= y and y <= @y + 10
+  def obstacle_crash(aabb)
+    if self.aabb.intersects aabb then
       #@lives -= 1 if @lives > 0
       @broken = true
       true
@@ -136,9 +113,17 @@ class Snake
 
   def check_obstacle_crash
     GameWindow.window.obstacles.each do |obstacle|
-      if obstacle_crash(obstacle.x, obstacle.y)
+      if obstacle_crash(obstacle.aabb)
         obstacle = Obstacle.new()
       end
+    end
+  end
+
+  def add_tail
+    if @tail
+      @tail.add_tail
+    else
+      @tail = Tail.new(@x, @y)
     end
   end
 
@@ -173,5 +158,3 @@ class Snake
   end
 
 end
-
-

@@ -2,10 +2,18 @@ include Gosu
 
 class GameWindow < Window
 
-  attr_accessor :food, :obstacles
+  attr_accessor :food, :obstacles, :snake
 
   def self.window
     @@window
+  end
+
+  def self.grid_size
+    [@@window.snake.image.width, @@window.snake.image.height]
+  end
+
+  def self.window_size
+    [@@window.width, @@window.height]
   end
 
   def initialize
@@ -13,6 +21,7 @@ class GameWindow < Window
     @@window = self
     self.caption = "Ruby Snake"
     @background_image = Image.new(self, "Images/Grass.png", true)
+    @obstacles = []
     @snake = Snake.new()
     restart_all
     @font = Font.new(self, default_font_name, 50)
@@ -44,14 +53,12 @@ class GameWindow < Window
   def restart_all
     @snake.score = 0
     @snake.tail = nil
-    @snake.warp(320, 240)
+    @snake.snake_position(320, 240)
     @food = Food.new()
     @obstacles = []
-    @obstacles[0] = Obstacle.new()
-    @obstacles[1] = Obstacle.new()
-    @obstacles[2] = Obstacle.new()
-    @obstacles[3] = Obstacle.new()
-    @obstacles[4] = Obstacle.new()
+    5.times do
+      @obstacles.push Obstacle.new()
+    end
   end
 
   def button_down(id)

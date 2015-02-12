@@ -8,12 +8,34 @@ class Obstacle
 
   def initialize()
     @image = Image.new(GameWindow.window, "Images/Obstacle.bmp", false)
-    @x = rand(20..620)
-    @y = rand(50..460)
+    replace
+    until Obstacle.obstacle_free? aabb, self do
+      replace
+    end
+  end
+
+  def replace
+    grid_size = GameWindow.grid_size
+    window_size = GameWindow.window_size
+    @x = (rand(window_size[0]/grid_size[0] - 2).round + 1)*grid_size[0]
+    @y = (rand(window_size[1]/grid_size[1] - 2).round + 1)*grid_size[1]
   end
 
   def draw
-    @image.draw(@x, @y, 1)
+    @image.draw_rot(@x, @y, 1, 0)
+  end
+
+  def self.obstacle_free?(other_aabb, skip = nil)
+    GameWindow.window.obstacles.each do |obs|
+      if obs != skip then
+        return false if obs.aabb.intersects other_aabb
+      end
+    end
+    true
+  end
+
+  def aabb
+    AABB.new(@x - @image.width/2, @y - @image.height/2, @x + @image.width/2, @y + @image.height/2)
   end
 
 end
